@@ -1,0 +1,104 @@
+{
+    "productsId":["59kfh","ifu0jk","ciqmje","8nde6h"],
+    "product":{
+        "ממתקים":[
+            {
+                "name":"חמצוץ אדום-לבן",
+                "price":0.5,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/6nsbta.jpg?alt=media&token=5abf96a4-43aa-4362-878d-9c8162bf0fb5",
+                "inStock":true,
+                "id":"6nsbta"
+            },{
+                "name":"חמצוץ דגל צרפת",
+                "price":0.5,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/r7bfio.jpg?alt=media&token=888a8e6a-5847-4d94-882c-fc8881a2aceb",
+                "inStock":false,
+                "id":"r7bfio"
+            },
+            {
+                "name":"לקקן צבעוני",
+                "price":6,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/fytc2.jpg?alt=media&token=342311f0-cf57-4f42-8616-78bb1f3fae88",
+                "inStock":true,
+                "id":"fytc2"
+            }
+        ],
+        "חטיפים":[
+            {
+                "name":"דוריטוס",
+                "price":6,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/q84pfq.png?alt=media&token=4a563c05-adfa-4ee8-bdae-e750399bd1d8",
+                "inStock":true,
+                "id":"q84pfq"
+            },
+            {
+                "name":"תפוציפס",
+                "price":6,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/pcqgnn.png?alt=media&token=0ab88391-4685-4f9f-825b-d57665950e15",
+                "inStock":true,
+                "id":"pcqgnn"
+            },
+            {
+                "name":"ביסלי גריל",
+                "price":6,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/256d18.png?alt=media&token=b7435460-33e2-43ad-bc9b-858306c78eaf",
+                "inStock":true,
+                "id":"256d18"
+            }
+        ],
+        "שוקולדים":[
+            {
+                "name":"קליק כריות",
+                "price":6,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/2px8i.png?alt=media&token=ed6758ad-283e-4895-80ae-6a42bce9af60",
+                "inStock":true,
+                "id":"2px8i"
+            },
+            {
+                "name":"קליק ביסקויט",
+                "price":6,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/zmmnju9.png?alt=media&token=3fb1907d-849b-4204-8876-73b1dc9c651b",
+                "inStock":true,
+                "id":"zmmnju9"
+            },
+            {
+                "name":"קליק קורנפלקס",
+                "price":6,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/a4mfw.png?alt=media&token=253eaeec-7fc1-4817-89ee-95e351aa007d",
+                "inStock":true,
+                "id":"a4mfw"
+            },
+            {
+                "name":"קליק חום לבן",
+                "price":6,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/obmp3.png?alt=media&token=ddb092c2-4f41-453c-911a-f5b2860af058",
+                "inStock":true,
+                "id":"obmp3"
+            },
+            {
+                "name":"בואנו שוקולד חלב",
+                "price":6,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/ciqmje.png?alt=media&token=514ce03c-5586-4b55-b602-edb69b016019",
+                "inStock":true,
+                "id":"ciqmje"
+            }
+        ],
+        "שתיה":[
+            {
+                "name":"פחית קוקה קולה",
+                "price":6,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/8nde6h.webp?alt=media&token=414a9990-692c-4738-953f-f4899955489b",
+                "inStock":true,
+                "id":"8nde6h"
+            },
+            {
+                "name":"טרופית",
+                "price":3,
+                "pic": "https://firebasestorage.googleapis.com/v0/b/kiosk-23250.appspot.com/o/8nde6h.webp?alt=media&token=414a9990-692c-4738-953f-f4899955489b",
+                "inStock":true,
+                "id":"voojl1"
+            }
+        ]
+    },
+    "messages":[]
+}
