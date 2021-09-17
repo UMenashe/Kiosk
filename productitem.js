@@ -20,19 +20,21 @@ export function normalize(size) {
 export default function ProductItem(props) {
   
     return (
-        <TouchableOpacity activeOpacity={0.5} style={styles.container} onPress={(e)=> {}}> 
+        <TouchableOpacity activeOpacity={0.7} style={styles.container} onPress={(e)=> {}}> 
         <View >
         <Image
         style={styles.logo}
         source={{uri:props.pic}}
         />
-          <View style={{alignItems:"flex-end",marginRight:30}}>
+          <View style={{flexDirection:"column"}}>
           <Text style={styles.text}>{props.name}</Text>
+          <View style={{flexDirection:"row",margin:15,justifyContent:"space-between"}}>
+          {props.inStock ? <Text style={{fontSize:17,color:"green"}}>במלאי</Text>:
+          <Text style={{fontSize:17,color:"red"}}>אזל מהמלאי</Text>
+          }
           <Text style={{fontSize:17}}>{props.price}₪</Text>
           </View>
-          {props.inStock ? <Text style={{fontSize:17,color:"green",marginHorizontal:25}}>במלאי</Text>:
-          <Text style={{fontSize:17,color:"red",marginHorizontal:25}}>אזל מהמלאי</Text>
-          }
+          </View>
          </View>
         </TouchableOpacity>
     )
@@ -40,20 +42,22 @@ export default function ProductItem(props) {
  const styles = StyleSheet.create({
     container: {
         width:250,
-        height:290,
-        borderRadius:25,
-        backgroundColor: '#ffffff',
+        height:330,
+        borderRadius:18,
+        backgroundColor: '#fff',
         margin:15,
         justifyContent:"center",
-        shadowRadius:3,
+        shadowRadius:6,
         shadowOpacity:0.1,
        },
        text:{
-           marginVertical:30,
            fontSize:19,
+           alignSelf:"flex-end",
+           marginHorizontal:15,
            fontWeight:"bold"
        },logo: {
         alignSelf:"center",
+        marginBottom:70,
         width: 120,
         height: 140,
       },
