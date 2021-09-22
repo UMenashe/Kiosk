@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react';
 import { Headline,Searchbar,IconButton,Avatar  } from 'react-native-paper';
 import { FlatList,StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
 import productData from './prodactObj.json';
+import firebase from './firebaseConfig';
 import SearchItem from './searchitem';
 const {
   width: SCREEN_WIDTH,
@@ -23,6 +24,7 @@ export default function SearchPage() {
     const [searchQuery, setSearchQuery] = useState('');
     let [datafound,setFound] = useState([]);
     let [allProduct,setAllProduct] = useState([]);
+    let [firebaseData,setData] = useState();
 
     const onChangeSearch = query => {
         let arr = [];
@@ -36,9 +38,18 @@ export default function SearchPage() {
         }
     };
 
+    let getData = (data)=>{
+      setData(data.val());
+    }
+    let errData = (err)=>{
+     console.log(err);
+    }
+
     useEffect(()=>{
-        console.log("test");
-        let val = Object.values(productData.product);
+      if(!firebaseData){
+        firebase.database().ref(`/`).on('value',getData,errData);
+      }else{
+         let val = Object.values(firebaseData.product);
         let newArr = [];
         for(let i in val){
             for(let x of val[i]){
@@ -46,7 +57,8 @@ export default function SearchPage() {
             }
         }
         setAllProduct(newArr);
-    },[])
+      }
+    },[firebaseData])
     return (
       <View>
        <Searchbar
