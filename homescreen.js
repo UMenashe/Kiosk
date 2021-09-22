@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react';
 import { Headline,Searchbar,IconButton,Avatar  } from 'react-native-paper';
 import {  StyleSheet, Text, View,TouchableOpacity,ImageBackground , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
 import productData from './prodactObj.json';
+import firebase from './firebaseConfig';
 import ProductItem from './productitem';
 import MessageItem from './messageitem';
 const {
@@ -23,21 +24,22 @@ export default function HomeScreen({navigation}) {
   
   const [searchQuery, setSearchQuery] = useState('');
   const [MessageActive,setMessageActive] = useState(0);
+  let [firebaseData,setData] = useState();
 
   const onChangeSearch = query => setSearchQuery(query);
 
   let getHour = ()=>{
     let txt = "";
     let date = new Date();
-    console.log(date.getHours());
+    date = date.getHours();
     if(date < 12){
-     txt = "בוקר טוב"
+     txt = "בוקר טוב";
     }else if (date >= 12 && date <= 17){
-      txt = "צהריים טובים"
-    }else if (date > 17 && date < 23){
+      txt = "צהריים טובים";
+    } else if (date >= 18 && date <= 24){
       txt = "ערב טוב"
-    }else if (date >= 0){
-     txt = "לילה טוב"
+    }else{
+      txt = "לילה טוב";
     }
     return txt;
     }
@@ -51,9 +53,21 @@ export default function HomeScreen({navigation}) {
      }
     }
 
+    let getData = (data)=>{
+      setData(data.val());
+    }
+    let errData = (err)=>{
+     console.log(err);
+    }
+
+    useEffect(()=>{
+      firebase.database().ref(`/`).on('value',getData,errData);
+    },[]);
+
     return (
         <SafeAreaView style={{flex:1,paddingTop: StatusBar.currentHeight,backgroundColor:"#edf2fb"}}>
-        <ScrollView contentContainerStyle={{paddingBottom: 100}}>
+          {firebaseData ? 
+            <ScrollView contentContainerStyle={{paddingBottom: 100}}>
           <View style={{width:"100%",height:200,backgroundColor:"#000",justifyContent:"center",backgroundColor:"#edf2fb",marginTop:80}}>
             <View style={{flexDirection:"row",justifyContent:"space-between",margin:20,direction:"rtl"}}>
             <Headline style={styles.head2}>היי, {getHour()}</Headline>
@@ -67,7 +81,7 @@ export default function HomeScreen({navigation}) {
             </View>
           
         <View style={styles.container2}>
-          {productData.messages.length === 0 ?
+          {firebaseData.messages.length === 0 ?
           <View style={styles.container3}>
           <View style={{alignItems:"center"}}><Avatar.Icon color="black" style={{backgroundColor:"#f2f2f2"}} size={45} icon="message-bulleted-off" />
           <Text style={{textAlign:"center",fontSize:18,fontWeight:"bold"}}>אין הודעות</Text>
@@ -81,14 +95,14 @@ export default function HomeScreen({navigation}) {
           pagingEnabled
           horizontal
           >
-          {productData.messages.map((item,id)=>{
+          {firebaseData.messages.map((item,id)=>{
             return <MessageItem key={id}  item={item}></MessageItem>
             })}
             
           </ScrollView>
           <View style={styles.warpDot}>
           {
-           productData.messages.map((e,index)=>{
+           firebaseData.messages.map((e,index)=>{
            return <Text key={index} style={MessageActive === index ? styles.dotActive : styles.dot}>●</Text>
            })}
          </View>
@@ -99,33 +113,35 @@ export default function HomeScreen({navigation}) {
         </View>
         <Headline style={styles.head}>ממתקים</Headline>
         <ScrollView showsHorizontalScrollIndicator={false}  horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
-         {productData.product["ממתקים"].map((item)=>{
+         {firebaseData.product["ממתקים"].map((item)=>{
          return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
          }
          )}
         </ScrollView>
         <Headline style={styles.head}>שוקולדים</Headline>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
-         {productData.product["שוקולדים"].map((item)=>{
+         {firebaseData.product["שוקולדים"].map((item)=>{
          return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
          }
          )}
         </ScrollView>
         <Headline style={styles.head}>חטיפים</Headline>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
-         {productData.product["חטיפים"].map((item)=>{
+         {firebaseData.product["חטיפים"].map((item)=>{
          return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
          }
          )}
         </ScrollView>
         <Headline style={styles.head}>שתיה</Headline>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
-         {productData.product["שתיה"].map((item)=>{
+         {firebaseData.product["שתיה"].map((item)=>{
          return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
          }
          )}
         </ScrollView>
         </ScrollView>
+          :<View></View>
+        }
         </SafeAreaView>
     )
 }
