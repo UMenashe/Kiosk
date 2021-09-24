@@ -20,7 +20,7 @@ export default function MessageItem(props) {
   
     return (
       <View style={styles.container3}>
-        <View style={{flexDirection:"column",margin:10,alignItems:"flex-end"}}>
+        <View style={{flexDirection:"column",margin:10,direction:"rtl"}}>
          <Headline style={{margin:10,fontWeight:"bold",fontSize:18}}>{props.item.title}</Headline>
          <Text style={{fontSize:17}}>{props.item.content}</Text>
         </View>
