@@ -1,10 +1,21 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect, useState,useRef} from 'react';
 import { Headline,Searchbar,IconButton,Avatar  } from 'react-native-paper';
+import * as Notifications from 'expo-notifications';
 import {  StyleSheet, Text, View,TouchableOpacity,ImageBackground , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
-import productData from './prodactObj.json';
 import firebase from './firebaseConfig';
 import ProductItem from './productitem';
 import MessageItem from './messageitem';
+import checkIfFirstLaunch from './checkFirstLaunch';
+import registerForPushNotificationsAsync from './registerNotifications';
+import image from './assets/splash.png';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 const {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
@@ -20,13 +31,15 @@ export function normalize(size) {
     return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
   }
 }
-export default function HomeScreen({navigation}) {
-  
-  const [searchQuery, setSearchQuery] = useState('');
+export default function HomeScreen({navigation }) {
+
   const [MessageActive,setMessageActive] = useState(0);
   let [firebaseData,setData] = useState();
-
-  const onChangeSearch = query => setSearchQuery(query);
+  let [isFirstLaunch,setisFirstLaunch] = useState(false);
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
 
   let getHour = ()=>{
     let txt = "";
@@ -61,8 +74,55 @@ export default function HomeScreen({navigation}) {
     }
 
     useEffect(()=>{
-      firebase.database().ref(`/`).on('value',getData,errData);
-    },[]);
+      if(!firebaseData)
+        firebase.database().ref(`/`).on('value',getData,errData);
+      else{
+        if(isFirstLaunch){
+          addUser(expoPushToken);
+        }
+      }
+    },[firebaseData]);
+
+    let addUser = (expoPushToken)=>{
+      let tokens = firebaseData.usersTokens;
+      if(!tokens.includes(expoPushToken)){
+        tokens.push(expoPushToken);
+        firebase.database().ref(`/usersTokens`).set(tokens);
+      }
+    }
+
+  useEffect(() => {
+    (async()=>{
+    const isFirstLaunch = await checkIfFirstLaunch(); 
+    setisFirstLaunch(isFirstLaunch);
+    if(isFirstLaunch){
+      registerForPushNotificationsAsync().then((token) =>{
+      setExpoPushToken(token);
+    }
+    );
+    }
+  })();
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        setNotification(notification);
+      }
+    );
+
+    
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log(response);
+      }
+    );
+
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
     return (
         <SafeAreaView style={{flex:1,paddingTop: StatusBar.currentHeight,backgroundColor:"#edf2fb"}}>
@@ -140,7 +200,10 @@ export default function HomeScreen({navigation}) {
          )}
         </ScrollView>
         </ScrollView>
-          :<View></View>
+          :<View style={{backgroundColor:"#000"}}>
+            <ImageBackground source={image} resizeMode="cover" style={{width:"100%",height:"100%"}}>
+            </ImageBackground>
+          </View>
         }
         </SafeAreaView>
     )
