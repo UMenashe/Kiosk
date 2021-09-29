@@ -35,7 +35,6 @@ export default function HomeScreen({navigation }) {
 
   const [MessageActive,setMessageActive] = useState(0);
   let [firebaseData,setData] = useState();
-  let [isFirstLaunch,setisFirstLaunch] = useState(false);
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
@@ -77,9 +76,15 @@ export default function HomeScreen({navigation }) {
       if(!firebaseData)
         firebase.database().ref(`/`).on('value',getData,errData);
       else{
-        if(isFirstLaunch){
-          addUser(expoPushToken);
-        }
+        (async()=>{
+          const isFirstLaunch = await checkIfFirstLaunch(); 
+          if(isFirstLaunch){
+            registerForPushNotificationsAsync().then((token) =>{
+              addUser(token);
+          }
+          );
+          }
+        })();
       }
     },[firebaseData]);
 
@@ -92,17 +97,6 @@ export default function HomeScreen({navigation }) {
     }
 
   useEffect(() => {
-    (async()=>{
-    const isFirstLaunch = await checkIfFirstLaunch(); 
-    setisFirstLaunch(isFirstLaunch);
-    if(isFirstLaunch){
-      registerForPushNotificationsAsync().then((token) =>{
-      setExpoPushToken(token);
-    }
-    );
-    }
-  })();
-
     notificationListener.current = Notifications.addNotificationReceivedListener(
       (notification) => {
         setNotification(notification);
