@@ -1,7 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import { Headline } from 'react-native-paper';
 import {  StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
-import productData from './prodactObj.json';
 const {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,

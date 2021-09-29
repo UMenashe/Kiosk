@@ -1,21 +1,11 @@
 import React,{useEffect, useState,useRef} from 'react';
 import { Headline,Searchbar,IconButton,Avatar  } from 'react-native-paper';
-import * as Notifications from 'expo-notifications';
 import {  StyleSheet, Text, View,TouchableOpacity,ImageBackground , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
 import firebase from './firebaseConfig';
 import ProductItem from './productitem';
 import MessageItem from './messageitem';
-import checkIfFirstLaunch from './checkFirstLaunch';
-import registerForPushNotificationsAsync from './registerNotifications';
 import image from './assets/splash.png';
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
 const {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
@@ -74,55 +64,8 @@ export default function HomeScreen({navigation }) {
     }
 
     useEffect(()=>{
-      if(!firebaseData)
         firebase.database().ref(`/`).on('value',getData,errData);
-      else{
-        if(isFirstLaunch){
-          addUser(expoPushToken);
-        }
-      }
-    },[firebaseData]);
-
-    let addUser = (expoPushToken)=>{
-      let tokens = firebaseData.usersTokens;
-      if(!tokens.includes(expoPushToken)){
-        tokens.push(expoPushToken);
-        firebase.database().ref(`/usersTokens`).set(tokens);
-      }
-    }
-
-  useEffect(() => {
-    (async()=>{
-    const isFirstLaunch = await checkIfFirstLaunch(); 
-    setisFirstLaunch(isFirstLaunch);
-    if(isFirstLaunch){
-      registerForPushNotificationsAsync().then((token) =>{
-      setExpoPushToken(token);
-    }
-    );
-    }
-  })();
-
-    notificationListener.current = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        setNotification(notification);
-      }
-    );
-
-    
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        console.log(response);
-      }
-    );
-
-    return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
+    },[]);
 
     return (
         <SafeAreaView style={{flex:1,paddingTop: StatusBar.currentHeight,backgroundColor:"#edf2fb"}}>
