@@ -1,5 +1,4 @@
 import React,{useEffect, useState} from 'react';
-import { Headline,Avatar } from 'react-native-paper';
 import {  StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
 const {
   width: SCREEN_WIDTH,
@@ -20,11 +19,11 @@ export default function MessageItem(props) {
   
     return (
       <View style={styles.container3}>
-        <View style={{flexDirection:"column",margin:10,direction:"rtl"}}>
-         <Headline style={{margin:10,fontWeight:"bold",fontSize:18}}>{props.item.title}</Headline>
+        <View style={{flexDirection:"column",margin:10}}>
+         <Text style={{margin:10,fontWeight:"bold",fontSize:18}}>{props.item.title}</Text>
          <Text style={{fontSize:17}}>{props.item.content}</Text>
         </View>
-         <Text style={{marginTop:60,marginLeft:20}}>{props.item.time}</Text>
+         <Text style={{marginLeft:20,marginTop:30,alignSelf:"flex-start"}}>{props.item.time}</Text>
       </View>
     )
 }

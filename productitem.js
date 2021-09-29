@@ -1,7 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import { Headline } from 'react-native-paper';
 import {  StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
-import productData from './prodactObj.json';
 const {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
@@ -29,10 +28,10 @@ export default function ProductItem(props) {
           <View style={{flexDirection:"column"}}>
           <Text style={styles.text}>{props.name}</Text>
           <View style={{flexDirection:"row",margin:15,justifyContent:"space-between"}}>
+          <Text style={{fontSize:17}}>{props.price}₪</Text>
           {props.inStock ? <Text style={{fontSize:17,color:"green"}}>במלאי</Text>:
           <Text style={{fontSize:17,color:"red"}}>אזל מהמלאי</Text>
           }
-          <Text style={{fontSize:17}}>{props.price}₪</Text>
           </View>
           </View>
          </View>
@@ -52,7 +51,6 @@ export default function ProductItem(props) {
        },
        text:{
            fontSize:19,
-           alignSelf:"flex-end",
            marginHorizontal:15,
            fontWeight:"bold"
        },logo: {

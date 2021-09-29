@@ -135,7 +135,7 @@ export default function HomeScreen({navigation }) {
             </View>
           
         <View style={styles.container2}>
-          {firebaseData.messages.length === 0 ?
+          {!firebaseData.messages?
           <View style={styles.container3}>
           <View style={{alignItems:"center"}}><Avatar.Icon color="black" style={{backgroundColor:"#f2f2f2"}} size={45} icon="message-bulleted-off" />
           <Text style={{textAlign:"center",fontSize:18,fontWeight:"bold"}}>אין הודעות</Text>
@@ -189,6 +189,13 @@ export default function HomeScreen({navigation }) {
         <Headline style={styles.head}>שתיה</Headline>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
          {firebaseData.product["שתיה"].map((item)=>{
+         return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
+         }
+         )}
+        </ScrollView>
+        <Headline style={styles.head}>מזון</Headline>
+        <ScrollView showsHorizontalScrollIndicator={false}  horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
+         {firebaseData.product["מזון"].map((item)=>{
          return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
          }
          )}
