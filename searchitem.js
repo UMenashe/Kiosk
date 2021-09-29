@@ -1,21 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import { Headline } from 'react-native-paper';
 import {  StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
-const {
-  width: SCREEN_WIDTH,
-  height: SCREEN_HEIGHT,
-} = Dimensions.get('window');
 
-const scale = SCREEN_WIDTH / 320;
-
-export function normalize(size) {
-  const newSize = size * scale 
-  if (Platform.OS === 'ios') {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize))
-  } else {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
-  }
-}
 export default function SearchItem(props) {
   
     let item = props.item;
@@ -33,7 +19,7 @@ export default function SearchItem(props) {
          </View>
         <View style={{flexDirection:"column"}}>
             <Text style={styles.text}>{item.name}</Text>
-            <Text style={{fontSize:17,textAlign:"justify"}}>{item.price}₪</Text>
+            <Text style={{fontSize:17,textAlign:"right"}}>{item.price}₪</Text>
         </View>
          </View>
         </TouchableOpacity>

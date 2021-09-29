@@ -4,21 +4,7 @@ import { FlatList,StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, 
 import productData from './prodactObj.json';
 import firebase from './firebaseConfig';
 import SearchItem from './searchitem';
-const {
-  width: SCREEN_WIDTH,
-  height: SCREEN_HEIGHT,
-} = Dimensions.get('window');
 
-const scale = SCREEN_WIDTH / 320;
-
-export function normalize(size) {
-  const newSize = size * scale 
-  if (Platform.OS === 'ios') {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize))
-  } else {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
-  }
-}
 export default function SearchPage() {
   
     const [searchQuery, setSearchQuery] = useState('');

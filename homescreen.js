@@ -6,30 +6,10 @@ import ProductItem from './productitem';
 import MessageItem from './messageitem';
 import image from './assets/splash.png';
 
-const {
-  width: SCREEN_WIDTH,
-  height: SCREEN_HEIGHT,
-} = Dimensions.get('window');
-
-const scale = SCREEN_WIDTH / 320;
-
-export function normalize(size) {
-  const newSize = size * scale 
-  if (Platform.OS === 'ios') {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize))
-  } else {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
-  }
-}
 export default function HomeScreen({navigation }) {
 
   const [MessageActive,setMessageActive] = useState(0);
   let [firebaseData,setData] = useState();
-  let [isFirstLaunch,setisFirstLaunch] = useState(false);
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
 
   let getHour = ()=>{
     let txt = "";
@@ -115,28 +95,28 @@ export default function HomeScreen({navigation }) {
         
         </View>
         <Headline style={styles.head}>ממתקים</Headline>
-        <ScrollView showsHorizontalScrollIndicator={false}  horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
+        <ScrollView style={{direction:"rtl"}} showsHorizontalScrollIndicator={false}  horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
          {firebaseData.product["ממתקים"].map((item)=>{
          return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
          }
          )}
         </ScrollView>
         <Headline style={styles.head}>שוקולדים</Headline>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
+        <ScrollView style={{direction:"rtl"}} showsHorizontalScrollIndicator={false} horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
          {firebaseData.product["שוקולדים"].map((item)=>{
          return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
          }
          )}
         </ScrollView>
         <Headline style={styles.head}>חטיפים</Headline>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
+        <ScrollView style={{direction:"rtl"}} showsHorizontalScrollIndicator={false} horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
          {firebaseData.product["חטיפים"].map((item)=>{
          return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
          }
          )}
         </ScrollView>
         <Headline style={styles.head}>שתיה</Headline>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
+        <ScrollView style={{direction:"rtl"}} showsHorizontalScrollIndicator={false} horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
          {firebaseData.product["שתיה"].map((item)=>{
          return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
          }
@@ -163,17 +143,19 @@ export default function HomeScreen({navigation }) {
         shadowOpacity:0.1,
        },
        container2: {
-        width:normalize(295),
+        width:"90%",
+        position:"relative",
         height:180,
         borderRadius:20,
         backgroundColor: '#00000014',
-        margin:15,
+        margin:10,
+        alignSelf:"center",
         justifyContent:"center",
         shadowRadius:3,
         shadowOpacity:0.1,
        },
        container3:{
-        width:normalize(285),
+        width:285,
         height:170,
         alignSelf:"center",
         justifyContent:"center",
@@ -189,8 +171,9 @@ export default function HomeScreen({navigation }) {
         fontSize:25,
         marginTop:60,
         direction:"rtl",
+        textAlign:"right",
         fontWeight:"bold",
-        marginStart:20,
+        marginStart:30,
         padding:10
       },
       head2:{

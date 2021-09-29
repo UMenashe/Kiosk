@@ -1,21 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import { Headline } from 'react-native-paper';
 import {  StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
-const {
-  width: SCREEN_WIDTH,
-  height: SCREEN_HEIGHT,
-} = Dimensions.get('window');
 
-const scale = SCREEN_WIDTH / 320;
-
-export function normalize(size) {
-  const newSize = size * scale 
-  if (Platform.OS === 'ios') {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize))
-  } else {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
-  }
-}
 export default function ProductItem(props) {
   
     return (
@@ -28,10 +14,10 @@ export default function ProductItem(props) {
           <View style={{flexDirection:"column"}}>
           <Text style={styles.text}>{props.name}</Text>
           <View style={{flexDirection:"row",margin:15,justifyContent:"space-between"}}>
+          <Text style={{fontSize:17}}>{props.price}₪</Text>
           {props.inStock ? <Text style={{fontSize:17,color:"green"}}>במלאי</Text>:
           <Text style={{fontSize:17,color:"red"}}>אזל מהמלאי</Text>
           }
-          <Text style={{fontSize:17}}>{props.price}₪</Text>
           </View>
           </View>
          </View>
@@ -51,7 +37,7 @@ export default function ProductItem(props) {
        },
        text:{
            fontSize:19,
-           alignSelf:"flex-end",
+           textAlign:"right",
            marginHorizontal:15,
            fontWeight:"bold"
        },logo: {
