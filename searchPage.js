@@ -1,7 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import { Headline,Searchbar,IconButton,Avatar  } from 'react-native-paper';
 import { FlatList,StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
-import productData from './prodactObj.json';
 import firebase from './firebaseConfig';
 import SearchItem from './searchitem';
 

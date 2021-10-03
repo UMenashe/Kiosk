@@ -10,7 +10,7 @@ export default function MessageItem(props) {
          <Headline style={{margin:10,fontWeight:"bold",fontSize:18,textAlign:"right"}}>{props.item.title}</Headline>
          <Text style={{fontSize:17}}>{props.item.content}</Text>
         </View>
-         <Text style={{marginTop:60,marginLeft:20}}>{props.item.time}</Text>
+         <Text style={{marginTop:20,marginLeft:20}}>{props.item.time}</Text>
       </View>
     )
 }
