@@ -122,6 +122,13 @@ export default function HomeScreen({navigation }) {
          }
          )}
         </ScrollView>
+        <Headline style={styles.head}>מזון</Headline>
+        <ScrollView style={{direction:"rtl"}} showsHorizontalScrollIndicator={false}  horizontal={true} contentContainerStyle={{paddingBottom: 5}}>
+         {firebaseData.product["מזון"].map((item)=>{
+         return <ProductItem key={item.id} name={item.name} pic={item.pic} price={item.price} inStock={item.inStock}></ProductItem>
+         }
+         )}
+        </ScrollView>
         </ScrollView>
           :<View style={{backgroundColor:"#000"}}>
             <ImageBackground source={image} resizeMode="cover" style={{width:"100%",height:"100%"}}>

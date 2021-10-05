@@ -14,7 +14,7 @@ export default function App() {
       <Stack.Navigator>
         {!isIOS ? 
         (
-         <Stack.Screen name="StartScreen" component={StartScreen} options={{headerShown:false}} />
+         <Stack.Screen name="StartScreen" component={StartScreen} options={{headerShown:false,title:"קיוסק שמינית"}} />
         )
         :
         (

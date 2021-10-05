@@ -49,7 +49,7 @@ export default function SearchPage() {
        <Searchbar
           style={{margin:25,borderRadius:25,justifyContent:"center"}}
           iconColor="green"
-          inputStyle={{textAlign:"right"}}
+          inputStyle={{textAlign:"right",outline:"none"}}
           placeholder="חפש מוצר"
           onChangeText={onChangeSearch}
         /> 

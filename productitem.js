@@ -5,7 +5,7 @@ import {  StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, ScrollVi
 export default function ProductItem(props) {
   
     return (
-        <TouchableOpacity activeOpacity={0.7} style={styles.container} onPress={(e)=> {}}> 
+        <TouchableOpacity activeOpacity={0.9} style={styles.container} onPress={(e)=> {}}> 
         <View >
         <Image
         style={styles.logo}

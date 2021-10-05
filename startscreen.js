@@ -9,7 +9,7 @@ export default function StartScreen() {
       <View style={styles.container}>
         <img style={{borderRadius:100,margin:20}} width="120" height="120" src={icon}></img> 
        <Text style={{fontSize:20,fontWeight:"600",direction:'rtl',textAlign:"center"}}>מוזמנים להוריד את האפליקציה{"\n"} מ- Google play</Text>
-       <a href="">
+       <a href="https://play.google.com/store/apps/details?id=com.menash.Kiosk&gl=IL">
           <img width="277" height="100" src={googleBadge}></img> 
        </a>
        
