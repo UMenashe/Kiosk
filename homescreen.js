@@ -9,13 +9,6 @@ import checkIfFirstLaunch from './checkFirstLaunch';
 import registerForPushNotificationsAsync from './registerNotifications';
 import image from './assets/splash.png';
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
 const {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
@@ -35,8 +28,7 @@ export default function HomeScreen({navigation }) {
 
   const [MessageActive,setMessageActive] = useState(0);
   let [firebaseData,setData] = useState();
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
+  const [expoPushToken, setExpoPushToken] = useState(true);
   const notificationListener = useRef();
   const responseListener = useRef();
 
@@ -67,56 +59,32 @@ export default function HomeScreen({navigation }) {
 
     let getData = (data)=>{
       setData(data.val());
+      if(expoPushToken){
+        registerForPushNotificationsAsync().then((token) =>{
+          addUser(token,data.val()["usersTokens"]);
+      }
+      );
+        setExpoPushToken(false);
+      }
     }
     let errData = (err)=>{
      console.log(err);
     }
 
     useEffect(()=>{
-      if(!firebaseData)
         firebase.database().ref(`/`).on('value',getData,errData);
-      else{
-        (async()=>{
-          const isFirstLaunch = await checkIfFirstLaunch(); 
-          if(isFirstLaunch){
-            registerForPushNotificationsAsync().then((token) =>{
-              addUser(token);
-          }
-          );
-          }
-        })();
-      }
-    },[firebaseData]);
+    },[]);
 
-    let addUser = (expoPushToken)=>{
-      let tokens = firebaseData.usersTokens;
-      if(!tokens.includes(expoPushToken)){
-        tokens.push(expoPushToken);
+    let addUser = (PushToken,tokens)=>{
+      if(!PushToken)
+      return;
+
+      console.log(PushToken);
+      if(!tokens.includes(PushToken)){
+        tokens.push(PushToken);
         firebase.database().ref(`/usersTokens`).set(tokens);
       }
     }
-
-  useEffect(() => {
-    notificationListener.current = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        setNotification(notification);
-      }
-    );
-
-    
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        console.log(response);
-      }
-    );
-
-    return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
 
     return (
         <SafeAreaView style={{flex:1,paddingTop: StatusBar.currentHeight,backgroundColor:"#edf2fb"}}>
