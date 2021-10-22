@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
-import { Headline,Searchbar,IconButton,Avatar  } from 'react-native-paper';
+import { Headline,Searchbar,IconButton,Avatar} from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { FlatList,StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
 import firebase from './firebaseConfig';
 import SearchItem from './searchitem';
@@ -26,6 +27,12 @@ export default function SearchPage() {
     let [firebaseData,setData] = useState();
 
     const onChangeSearch = query => {
+      setSearchQuery(query);
+      if(!query.length){
+        setFound([]);
+        return;
+      }
+          
         let arr = [];
         if(allProduct.length != 0){
             for(let item of allProduct){
@@ -61,17 +68,26 @@ export default function SearchPage() {
     return (
       <View>
        <Searchbar
-          style={{margin:25,borderRadius:25,justifyContent:"center"}}
+          style={{margin:25,marginTop:50,borderRadius:25,justifyContent:"center"}}
           iconColor="green"
           inputStyle={{textAlign:"right"}}
           placeholder="חפש מוצר"
           onChangeText={onChangeSearch}
-        /> 
+        />
+        {datafound.length === 0 && searchQuery.length > 0 ?
+        <View style={{alignItems:"center",justifyContent:"center",marginVertical:20}}>
+          <MaterialCommunityIcons  name="magnify-close" color="#ef233c" size={29}/>
+          <Text style={{fontWeight:"bold",fontSize:19,marginHorizontal:5}}>לא נמצאו מוצרים</Text>
+          
+        </View>
+        :
         <FlatList
-        style={{marginBottom:100,padding:2}}
+        style={{marginBottom:120,padding:2}}
         data={datafound}
         renderItem={({item,index}) => <SearchItem key={index} item={item}></SearchItem>}
       />
+        } 
+        
       </View>
     )
 }

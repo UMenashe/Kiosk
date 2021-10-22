@@ -87,19 +87,13 @@ export default function HomeScreen({navigation }) {
     }
 
     return (
-        <SafeAreaView style={{flex:1,paddingTop: StatusBar.currentHeight,backgroundColor:"#edf2fb"}}>
+        <SafeAreaView style={{flex:1,paddingTop: StatusBar.currentHeight}}>
           {firebaseData ? 
             <ScrollView contentContainerStyle={{paddingBottom: 100}}>
           <View style={{width:"100%",height:200,backgroundColor:"#000",justifyContent:"center",backgroundColor:"#edf2fb",marginTop:80}}>
             <View style={{flexDirection:"row",justifyContent:"space-between",margin:20,direction:"rtl"}}>
             <Headline style={styles.head2}>היי, {getHour()}</Headline>
-            <IconButton
-              icon="magnify"
-              color="#000"
-              style={{backgroundColor:"#fff",borderRadius:10}}
-              size={26}
-              onPress={()=>{navigation.push("SearchPage")}}
-            /> 
+           
             </View>
           
         <View style={styles.container2}>
@@ -116,6 +110,7 @@ export default function HomeScreen({navigation }) {
           scrollEventThrottle={0.1}
           pagingEnabled
           horizontal
+          endFillColor="#000"
           >
           {firebaseData.messages.map((item,id)=>{
             return <MessageItem key={id}  item={item}></MessageItem>
@@ -220,7 +215,7 @@ export default function HomeScreen({navigation }) {
         padding:10
       },
       head2:{
-        fontSize:26,
+        fontSize:24,
         direction:"rtl",
         fontWeight:"bold",
       },

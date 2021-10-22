@@ -55,8 +55,9 @@ export default function ProductItem(props) {
            fontWeight:"bold"
        },logo: {
         alignSelf:"center",
-        marginBottom:70,
-        width: 120,
-        height: 140,
+        marginBottom:60,
+        width: 150,
+        height: 150,
+        resizeMode: 'contain',
       },
 });
