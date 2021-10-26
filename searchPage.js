@@ -1,9 +1,10 @@
 import React,{useEffect, useState} from 'react';
-import { Headline,Searchbar,IconButton,Avatar} from 'react-native-paper';
+import { Headline,Searchbar,IconButton,Avatar,Chip} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { FlatList,StyleSheet, Text, View,TouchableOpacity,Image , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
 import firebase from './firebaseConfig';
 import SearchItem from './searchitem';
+import SortItems from './sortitems';
 const {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
@@ -25,14 +26,20 @@ export default function SearchPage() {
     let [datafound,setFound] = useState([]);
     let [allProduct,setAllProduct] = useState([]);
     let [firebaseData,setData] = useState();
-
+    let [sum,setSum] = useState(1);
+    let [shouldSort,SetSort] = useState(false);
+    let [select,setSelect] = useState(false);
+    let [placeholderTxt,setTxt] = useState("חפש מוצר");
     const onChangeSearch = query => {
       setSearchQuery(query);
       if(!query.length){
         setFound([]);
         return;
       }
-          
+      buildArr(query);
+    };
+
+    let buildArr = (query)=>{
         let arr = [];
         if(allProduct.length != 0){
             for(let item of allProduct){
@@ -42,8 +49,23 @@ export default function SearchPage() {
             }
             setFound(arr);
         }
-    };
+    }
 
+   let onSort = (newSum)=>{
+     setSum(newSum);
+     SetSort(true);
+     buildArr(searchQuery);
+     setTxt(`מסנן מוצרים עד ${newSum} שקל`);
+     setSelect(true);
+    }
+
+    let changeSort = ()=>{
+      setSelect(!select);
+      if(select){
+        SetSort(false);
+        setTxt("חפש מוצר");
+      }
+    }
     let getData = (data)=>{
       setData(data.val());
     }
@@ -71,9 +93,14 @@ export default function SearchPage() {
           style={{margin:25,marginTop:50,borderRadius:25,justifyContent:"center"}}
           iconColor="green"
           inputStyle={{textAlign:"right"}}
-          placeholder="חפש מוצר"
+          placeholder={placeholderTxt}
           onChangeText={onChangeSearch}
         />
+        {shouldSort ? 
+        <Chip selected={select} mode="outlined" selectedColor="green" style={{width:110,backgroundColor:"#fff"}} onPress={changeSort}><Text style={{fontSize:15}}>סינון מחיר</Text></Chip>
+         :
+         null
+        }
         {datafound.length === 0 && searchQuery.length > 0 ?
         <View style={{alignItems:"center",justifyContent:"center",marginVertical:20}}>
           <MaterialCommunityIcons  name="magnify-close" color="#ef233c" size={29}/>
@@ -81,11 +108,17 @@ export default function SearchPage() {
           
         </View>
         :
-        <FlatList
+        <>
+        {shouldSort ? 
+       <FlatList
         style={{marginBottom:120,padding:2}}
         data={datafound}
-        renderItem={({item,index}) => <SearchItem key={index} item={item}></SearchItem>}
-      />
+        renderItem={({item,index}) => {return Number(item.price) <= sum ? <SearchItem key={index} item={item}></SearchItem> : null}}
+      />:<SortItems sort={onSort}></SortItems>
+        }
+        
+      
+      </>
         } 
         
       </View>

@@ -52,6 +52,7 @@ export default function SearchItem(props) {
        },logo: {
         width: 50,
         alignSelf:"flex-end",
-        height: 50
+        height: 50,
+        resizeMode: 'contain'
       },
 });

@@ -1,7 +1,6 @@
 import React,{useEffect, useState,useRef} from 'react';
 import { Headline,Searchbar,IconButton,Avatar  } from 'react-native-paper';
-import * as Notifications from 'expo-notifications';
-import {  StyleSheet, Text, View,TouchableOpacity,ImageBackground , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
+import {  StyleSheet, Text, View,TouchableOpacity,ImageBackground,ActivityIndicator , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
 import firebase from './firebaseConfig';
 import ProductItem from './productitem';
 import MessageItem from './messageitem';
@@ -29,8 +28,6 @@ export default function HomeScreen({navigation }) {
   const [MessageActive,setMessageActive] = useState(0);
   let [firebaseData,setData] = useState();
   const [expoPushToken, setExpoPushToken] = useState(true);
-  const notificationListener = useRef();
-  const responseListener = useRef();
 
   let getHour = ()=>{
     let txt = "";
@@ -110,7 +107,6 @@ export default function HomeScreen({navigation }) {
           scrollEventThrottle={0.1}
           pagingEnabled
           horizontal
-          endFillColor="#000"
           >
           {firebaseData.messages.map((item,id)=>{
             return <MessageItem key={id}  item={item}></MessageItem>
@@ -166,6 +162,10 @@ export default function HomeScreen({navigation }) {
         </ScrollView>
           :<View style={{backgroundColor:"#000"}}>
             <ImageBackground source={image} resizeMode="cover" style={{width:"100%",height:"100%"}}>
+              <View style={{flex:1,justifyContent:"flex-end",alignItems:"center",marginBottom:"30%"}}>
+                 <ActivityIndicator size="large" color="#9d4edd" />
+              </View>
+           
             </ImageBackground>
           </View>
         }
@@ -215,7 +215,7 @@ export default function HomeScreen({navigation }) {
         padding:10
       },
       head2:{
-        fontSize:24,
+        fontSize:25,
         direction:"rtl",
         fontWeight:"bold",
       },
