@@ -25,7 +25,7 @@ export default function SortItems(props) {
             <Text style={{fontSize:18,fontWeight:"bold"}}>כמה כסף יש לך?</Text>
             <Text style={{fontSize:18}}>{sum}₪</Text>
             <Slider
-                style={{width: 220, height: 60}}
+                style={{width: 220, height: 60,transform:[{rotateX:props.rotate ? "180deg":"0deg"}]}}
                 minimumValue={1}
                 step={0.5}
                 value={sum}
@@ -33,6 +33,7 @@ export default function SortItems(props) {
                 maximumValue={20}
                 onValueChange={(v)=>setSum(v.toFixed(1))}
                 minimumTrackTintColor="#000"
+                thumbTintColor="#3066be"
                 maximumTrackTintColor="#000000"
             />
             

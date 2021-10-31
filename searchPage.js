@@ -30,16 +30,23 @@ export default function SearchPage() {
     let [shouldSort,SetSort] = useState(false);
     let [select,setSelect] = useState(false);
     let [placeholderTxt,setTxt] = useState("חפש מוצר");
+    let [rotate,setRotate] = useState(true);
     const onChangeSearch = query => {
+      if(select)
+        return;
       setSearchQuery(query);
+      buildArr(query,false);
+    };
+
+    let buildArr = (query,sort)=>{
+      if(sort){
+        setFound(allProduct);
+        return;
+      }
       if(!query.length){
         setFound([]);
         return;
       }
-      buildArr(query);
-    };
-
-    let buildArr = (query)=>{
         let arr = [];
         if(allProduct.length != 0){
             for(let item of allProduct){
@@ -54,15 +61,16 @@ export default function SearchPage() {
    let onSort = (newSum)=>{
      setSum(newSum);
      SetSort(true);
-     buildArr(searchQuery);
+     buildArr(searchQuery,true);
      setTxt(`מסנן מוצרים עד ${newSum} שקל`);
      setSelect(true);
     }
 
     let changeSort = ()=>{
       setSelect(!select);
+      SetSort(!shouldSort);
       if(select){
-        SetSort(false);
+        setFound([]);
         setTxt("חפש מוצר");
       }
     }
@@ -86,7 +94,8 @@ export default function SearchPage() {
         }
         setAllProduct(newArr);
       }
-    },[firebaseData])
+    },[firebaseData]);
+    
     return (
       <View>
        <Searchbar
@@ -94,29 +103,41 @@ export default function SearchPage() {
           iconColor="green"
           inputStyle={{textAlign:"right"}}
           placeholder={placeholderTxt}
+          onFocus={()=>setRotate(false)}
           onChangeText={onChangeSearch}
         />
-        {shouldSort ? 
-        <Chip selected={select} mode="outlined" selectedColor="green" style={{width:110,backgroundColor:"#fff"}} onPress={changeSort}><Text style={{fontSize:15}}>סינון מחיר</Text></Chip>
+        {shouldSort ?
+        <Chip selected={select} mode="outlined" selectedColor="green" style={{width:110,backgroundColor:"#fff",alignSelf:"center",marginBottom:10}} onPress={changeSort}><Text style={{fontSize:15}}>סינון מחיר</Text></Chip>
          :
          null
         }
+
         {datafound.length === 0 && searchQuery.length > 0 ?
         <View style={{alignItems:"center",justifyContent:"center",marginVertical:20}}>
           <MaterialCommunityIcons  name="magnify-close" color="#ef233c" size={29}/>
           <Text style={{fontWeight:"bold",fontSize:19,marginHorizontal:5}}>לא נמצאו מוצרים</Text>
-          
         </View>
         :
         <>
-        {shouldSort ? 
-       <FlatList
-        style={{marginBottom:120,padding:2}}
-        data={datafound}
-        renderItem={({item,index}) => {return Number(item.price) <= sum ? <SearchItem key={index} item={item}></SearchItem> : null}}
-      />:<SortItems sort={onSort}></SortItems>
+        {shouldSort ?
+        <FlatList
+                style={{marginBottom:170,padding:2}}
+                data={datafound}
+                initialNumToRender={datafound.length}
+                renderItem={({item,index}) => {return Number(item.price) <= sum ? <SearchItem key={item.id} item={item}></SearchItem> : null}}
+              />
+              :
+         <FlatList
+                style={{marginBottom:120,padding:2}}
+                data={datafound}
+                renderItem={({item,index}) => <SearchItem key={item.id} item={item}></SearchItem>}
+              />     
         }
-        
+       {datafound.length === 0 && !shouldSort?
+         <SortItems rotate={rotate} sort={onSort}></SortItems>
+         :
+         null
+       }
       
       </>
         } 

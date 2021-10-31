@@ -1,12 +1,13 @@
 import React,{useEffect, useState,useRef} from 'react';
 import { Headline,Searchbar,IconButton,Avatar  } from 'react-native-paper';
-import {  StyleSheet, Text, View,TouchableOpacity,ImageBackground,ActivityIndicator , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
+import {  StyleSheet, Text, View,TouchableOpacity,Share,ImageBackground,ActivityIndicator , SafeAreaView, ScrollView,StatusBar,Dimensions, Platform,PixelRatio} from 'react-native';
 import firebase from './firebaseConfig';
 import ProductItem from './productitem';
 import MessageItem from './messageitem';
 import checkIfFirstLaunch from './checkFirstLaunch';
 import registerForPushNotificationsAsync from './registerNotifications';
 import image from './assets/splash.png';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const {
   width: SCREEN_WIDTH,
@@ -76,12 +77,24 @@ export default function HomeScreen({navigation }) {
       if(!PushToken)
       return;
 
-      console.log(PushToken);
+      
       if(!tokens.includes(PushToken)){
         tokens.push(PushToken);
         firebase.database().ref(`/usersTokens`).set(tokens);
       }
     }
+
+    const ShareApp = async () => {
+      try {
+        await Share.share({
+          message:
+            'הורידו את האפליקצית קיוסק שמינית ותתעדכנו בכל מה שקורה בקיוסק מהנייד📲 \n https://play.google.com/store/apps/details?id=com.menash.Kiosk&gl=IL',
+        });
+       
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
 
     return (
         <SafeAreaView style={{flex:1,paddingTop: StatusBar.currentHeight}}>
@@ -90,7 +103,9 @@ export default function HomeScreen({navigation }) {
           <View style={{width:"100%",height:200,backgroundColor:"#000",justifyContent:"center",backgroundColor:"#edf2fb",marginTop:80}}>
             <View style={{flexDirection:"row",justifyContent:"space-between",margin:20,direction:"rtl"}}>
             <Headline style={styles.head2}>היי, {getHour()}</Headline>
-           
+            <TouchableOpacity activeOpacity={0.7} style={{padding:10}} onPress={ShareApp}> 
+            <MaterialCommunityIcons  name="share-variant" color="#3066be" size={25}/>
+            </TouchableOpacity>
             </View>
           
         <View style={styles.container2}>

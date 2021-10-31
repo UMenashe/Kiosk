@@ -45,7 +45,6 @@ export default function WishingCorner() {
       let time = new Date();
       time = `${time.toDateString()},${time.toLocaleTimeString()}`;
       let obj = {wish:text.trim(),timeSend:time};
-      console.log(obj);
       firebase.database().ref('Wishings').push(obj).then(()=>{
         setModalVisible(true);
         setTimeout(()=>{
